@@ -30,6 +30,7 @@ jobs:
 
     - name: Setup Kubernetes Config
       run: |
+        mkdir -p ~/.kube
         echo "${{ secrets.KUBECONFIG_CONTENT }}" | base64 -d > ~/.kube/config
         chmod 600 ~/.kube/config
 
