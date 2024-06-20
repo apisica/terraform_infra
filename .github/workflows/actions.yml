@@ -16,14 +16,19 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+      
+      - name: Change to Terraform directory
+        run: cd /terraform-infra
 
       - name: Terraform Init
         run: terraform init
+        working-directory: cd /terraform-infra
 
       - name: Terraform Plan
         run: terraform plan
         env:
           TF_LOG: DEBUG
+        working-directory: cd /terraform-infra
 
       - name: Save Terraform Plan
         if: always()
@@ -38,3 +43,4 @@ jobs:
         with:
           name: plan
           path: plan.out
+        
