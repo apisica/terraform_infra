@@ -1,0 +1,40 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+        env:
+          TF_LOG: DEBUG
+
+      - name: Save Terraform Plan
+        if: always()
+        id: save_plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: terraform-plan
+          path: plan.out
+
+      - name: Upload Plan
+        uses: actions/upload-artifact@v2
+        with:
+          name: plan
+          path: plan.out
