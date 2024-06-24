@@ -37,3 +37,9 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=plan.out
         working-directory: ./terraform-infra
+      
+      - name: Upload Plan file
+        uses: actions/upload-artifact@v2
+        with:
+          name: terraform-plan
+          path: ./terraform-infra/plan.out
